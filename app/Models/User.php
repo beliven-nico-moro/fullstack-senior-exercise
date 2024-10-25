@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -11,6 +12,24 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+
+    /**
+     * Return user's games istances.
+     */
+    public function games() : HasMany
+    {
+        return $this->hasMany(Game::class);
+    }
+
+    public function gameList()
+    {
+        return $this->games->where('is_over', false)->sortByDesc('id');
+    }
+
+    public function currentGame()
+    {
+        return $this->games()->where('id', session('current_game_id'))->first();
+    }
 
     /**
      * The attributes that are mass assignable.
