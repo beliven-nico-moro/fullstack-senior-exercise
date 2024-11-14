@@ -9,7 +9,7 @@ class GameList extends Component
 {
     protected $games;
 
-    public function __construct()
+    public function mount()
     {
         $this->games = Auth::user()->gameList();
     }

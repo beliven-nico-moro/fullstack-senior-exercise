@@ -2,25 +2,42 @@
 
 namespace App\Livewire;
 
+use App\Jobs\UpdateBalance;
 use App\Models\Game;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class GameTimer extends Component
 {
-    protected $timer = 10;
+    public $startingTime;
+    public $timer;
+    public $timerLabel;
+
+    public function mount()
+    {
+        $this->timer = Carbon::parse(session('current_game_starting_time'));
+        $this->timerLabel = Carbon::now()->diff($this->timer)->format('%H:%I:%S');
+    }
 
     public function render()
     {
-        return view('livewire.game-timer', [
-            'timer' => $this->timer,
-        ]);
+        return view('livewire.game-timer');
     }
 
-    public function newCycle()
+    public function updateTimer()
     {
-        $this->timer = 10;
+        $interval = Carbon::now()->diff($this->timer);
 
-        $game = Game::find(session('current_game_id'));
-        $game->balance -= 1000;
+        if ($interval->s % 10 === 0) {
+            $this->updateGameBalance();
+        }
+
+        $this->timerLabel = $interval->format('%H:%I:%S');
+    }
+
+    public function updateGameBalance()
+    {
+        // Update game balance
+        UpdateBalance::dispatch(Game::where('id', session('current_game_id'))->first())->withoutDelay();
     }
 }

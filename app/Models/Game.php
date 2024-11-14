@@ -14,6 +14,8 @@ class Game extends Model
         'user_id',
     ];
 
+    protected $guarded = [];
+
     /**
      * Return the user that owns the game.
      */
@@ -68,5 +70,20 @@ class Game extends Model
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function availableProjects()
+    {
+        return $this->projects()->where('status', '!=', 'completed');
+    }
+
+    public function employeesToHire()
+    {
+        return $this->employees()->where(['hired' => false]);
+    }
+
+    public function hiredEmployees()
+    {
+        return $this->employees()->where(['hired' => true])->get();
     }
 }

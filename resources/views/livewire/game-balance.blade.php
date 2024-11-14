@@ -1,3 +1,3 @@
 <div>
-    <span class="font-bold">{{ __('Balance') }} {{ $balance }} €</span>
+    <span class="font-bold">{{ __('Balance') }}: {{ $balance }} €</span>
 </div>

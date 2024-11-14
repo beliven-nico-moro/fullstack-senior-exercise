@@ -2,10 +2,14 @@
 
 This is my repo for the fullstack senior exercise done in Laravel and Blade.
 
+I have created and started this project using [Laravel Herd](https://herd.laravel.com/). I recommend to use Laravel Herd to use this project locally.
+
 ## Commands
 To operate this project please follow this list:
 
-1. Use his command migrate the database and seeds it:
+1. Create a new .env file from the .env.example file
+
+2. Use his command migrate the database and seeds it:
 ````
 php artisan game:prepare
 ````
@@ -14,17 +18,24 @@ This command create a test user with this credentials:
 Email: test@test.com
 Password: password
 
-2. Use this command for start broadcasting:
+3. Use this command for start broadcasting:
 ````
 php artisan reverb:start
 ````
 
-3. Use this command for starting the queue:
+4. Use this command for starting the queue:
 ````
 php artisan queue:work
 ````
 
-4. Finally use this command to start the game:
+5. Finally use this command to start the game:
 ````
 npm run dev
 ````
+
+Now in your browser you can access the website from http://fullstack-senior-exercise.test/.
+
+___
+## Notable errors or defects
+1. Hamburger menu from the exercise text is missing
+2. Hiring an employee from HR page do not refresh HR employees list (delete an employee does)

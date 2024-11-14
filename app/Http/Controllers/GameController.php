@@ -42,47 +42,39 @@ class GameController extends Controller
         // link game to user
         // add 5000€ to game balance
         $game = Game::create([
-            //'name' => __('Game') . ' ' . (Game::where('user_id', $user_id)->count() + 1),
             'name'      => fake()->company(),
             'user_id'   => $user_id,
             'balance'   => 5000,
         ]);
 
         // create and hire 1 developer and 1 sale
-        $gender = fake()->randomElement(['male', 'female']);
-        Employee::create([
+        Employee::factory()->create([
             'position'      => 'developer',
-            'first_name'    => fake()->firstName(),
-            'last_name'     => fake()->lastName(),
-            'gender'        => $gender,
-            'status'        => 'unloaded',
             'game_id'       => $game->id,
             'hired'         => true,
             'seniority'     => 2,
+            'salary'        => 1000,
         ]);
-
-        $gender = fake()->randomElement(['male', 'female']);
-        Employee::create([
+        Employee::factory()->create([
             'position'      => 'sale',
-            'first_name'    => fake()->firstName(),
-            'last_name'     => fake()->lastName(),
-            'gender'        => $gender,
-            'status'        => 'unloaded',
             'game_id'       => $game->id,
             'hired'         => true,
             'seniority'     => 2,
+            'salary'        => 1000,
         ]);
 
         // create first task
-        Project::create([
-            'name'          => fake()->sentence(),
-            'reward'        => 1000,
+        Project::factory()->count(3)->create([
             'game_id'       => $game->id,
             'difficulty'    => 2,
+            'reward'        => 1000,
         ]);
 
         // set game to session
         session(['current_game_id' => $game->id]);
+
+        // set starting time
+        session(['current_game_starting_time' => now()]);
 
         // start game
         return redirect()->route('game.production');
@@ -92,6 +84,9 @@ class GameController extends Controller
     {
         // set game to session
         session(['current_game_id' => $request->game_id]);
+
+        // set starting time
+        session(['current_game_starting_time' => now()]);
 
         // resume game
         return redirect()->route('game.production');

@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'reward',
         'status',
         'difficulty',
         'game_id',
+        'developer_id'
     ];
+
+    protected $guarded = [];
 
     public function difficultyLabel()
     {

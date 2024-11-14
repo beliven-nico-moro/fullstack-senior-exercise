@@ -2,47 +2,44 @@
 
 namespace App\Livewire;
 
-use App\Models\Employee;
-use App\Models\Project;
+use App\Events\BalanceUpdated;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class ProjectList extends Component
 {
-    protected $projects;
-    protected $developers;
+    public $projects;
+    public $developers;
 
-    public $developer_id;
-    public $project_id;
-
-    protected $listeners = [
-        'projectAssigned' => '$refresh',
-    ];
-
-    public function __construct()
+    public function getListeners()
     {
-        $this->projects = Auth::user()->currentGame()->projects;
+        return [
+            'statusChanged'                             => '$refresh',
+            'echo:project-processed,ProjectProcessed'   => 'projectProcessed',
+            'echo:project-found,ProjectFound'           => 'checkProjects',
+        ];
+    }
+
+    public function mount()
+    {
+        $this->projects = Auth::user()->currentGame()->availableProjects;
         $this->developers = Auth::user()->currentGame()->unloadedDevelopers;
     }
 
     public function render()
     {
-        return view('livewire.project-list', [
-            'projects' => $this->projects,
-            'developers' => $this->developers,
-        ]);
+        return view('livewire.project-list');
     }
 
-    public function assignProject()
+    public function projectProcessed($data)
     {
-        $dev = Employee::find($this->developer_id);
-        $dev->status = 'busy';
-        $dev->save();
+        $this->projects = Auth::user()->currentGame()->availableProjects;
 
-        $project = Project::find($this->project_id);
-        $project->status = 'in_progress';
-        $project->save();
+        BalanceUpdated::dispatch($data);
+    }
 
-        $this->dispatch('projectAssigned');
+    public function checkProjects()
+    {
+        $this->projects = Auth::user()->currentGame()->availableProjects;
     }
 }

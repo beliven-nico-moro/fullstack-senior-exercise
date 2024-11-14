@@ -9,11 +9,14 @@ class DeveloperList extends Component
 {
     protected $employees;
 
-    protected $listeners = [
-        'projectAssigned' => '$refresh',
-    ];
+    public function getListeners()
+    {
+        return [
+            'projectAssigned' => '$refresh',
+        ];
+    }
 
-    public function __construct()
+    public function mount()
     {
         $this->employees = Auth::user()->currentGame()->developers;
     }

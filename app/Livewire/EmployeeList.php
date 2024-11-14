@@ -9,7 +9,7 @@ class EmployeeList extends Component
 {
     protected $employees;
 
-    public function __construct()
+    public function mount()
     {
         $this->employees = Auth::user()->currentGame()->employees;
     }

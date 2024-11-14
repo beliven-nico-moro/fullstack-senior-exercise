@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('hired')->default(false);
             $table->enum('status', ['unloaded', 'busy'])->default('unloaded');
             $table->enum('seniority', [1, 2, 3])->default(1);
+            $table->integer('salary');
             $table->foreignIdFor(Game::class, 'game_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
