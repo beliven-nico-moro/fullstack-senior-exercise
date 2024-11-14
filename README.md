@@ -4,6 +4,8 @@ This is my repo for the fullstack senior exercise done in Laravel and Blade.
 
 I have created and started this project using [Laravel Herd](https://herd.laravel.com/). I recommend to use Laravel Herd to use this project locally.
 
+This project use SQLite as database. It is stored inside database folder.
+
 ## Commands
 To operate this project please follow this list:
 
