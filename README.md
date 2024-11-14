@@ -36,6 +36,7 @@ npm run dev
 Now in your browser you can access the website from http://fullstack-senior-exercise.test/.
 
 ___
-## Notable errors or defects
+## Known errors or defects
 1. Hamburger menu from the exercise text is missing
 2. Hiring an employee from HR page do not refresh HR employees list (delete an employee does)
+3. There is no game over screen: the game proceed removing money every 10 seconds even when under 0€
